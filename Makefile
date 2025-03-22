@@ -15,8 +15,8 @@ install:
 	sudo cp dist/$(PROGRAM_NAME) $(INSTALL_DIR)/$(PROGRAM_NAME)
 	sudo chmod +x $(INSTALL_DIR)/$(PROGRAM_NAME)
 	@echo "all set run '$(PROGRAM_NAME)' from anywhere"
-  @cd && mkdir .icon && mkdir aldernys
-  @cp ~/bin.png .icon/aldernys/
+        @cd && mkdir .icon && mkdir aldernys
+        @cp ~/bin.png .icon/aldernys/
 
 uninstall:
 	@echo "uninstalling"
