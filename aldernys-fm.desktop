@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.2
+Type=Application
+Name=Aldernys FM
+GenericName=File Manager
+Comment=KDE-inspired file manager
+Exec=aldernys-fm
+Icon=system-file-manager
+Terminal=false
+Categories=Utility;FileManager;
+Keywords=file;manager;browser;
+StartupNotify=true
