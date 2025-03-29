@@ -111,104 +111,175 @@ class FileManager(QMainWindow):
         palette.setColor(QPalette.ToolTipBase, Qt.white)
         palette.setColor(QPalette.ToolTipText, Qt.black)
         palette.setColor(QPalette.Text, Qt.black)
-        palette.setColor(QPalette.Button, QColor(227, 227, 227))
+        palette.setColor(QPalette.Button, QColor(192, 192, 192))
         palette.setColor(QPalette.ButtonText, Qt.black)
         palette.setColor(QPalette.BrightText, Qt.red)
-        palette.setColor(QPalette.Highlight, QColor(61, 174, 233))
+        palette.setColor(QPalette.Highlight, QColor(48, 140, 198))
         palette.setColor(QPalette.HighlightedText, Qt.white)
         QApplication.setPalette(palette)
         
         self.setStyleSheet("""
             QMainWindow {
                 background-color: #eaeaea;
-                font: 11px;
             }
+            
+            QMenuBar {
+                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop:0 #5a5a5a, stop:1 #3a3a3a);
+                border: 1px solid #1a1a1a;
+                color: white;
+                padding: 2px;
+            }
+            
+            QMenuBar::item {
+                background: transparent;
+                padding: 4px 8px;
+                border-radius: 2px;
+            }
+            
+            QMenuBar::item:selected {
+                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop:0 #6a6a6a, stop:1 #4a4a4a);
+                border: 1px outset #3a3a3a;
+            }
+            
+            QMenuBar::item:pressed {
+                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop:0 #4a4a4a, stop:1 #2a2a2a);
+                border: 1px inset #3a3a3a;
+            }
+            
+            QMenu {
+                background-color: #f0f0f0;
+                border: 2px solid #8a8a8a;
+                color: black;
+                padding: 2px;
+            }
+            
+            QMenu::item {
+                padding: 4px 24px 4px 8px;
+                background-color: transparent;
+            }
+            
+            QMenu::item:selected {
+                background-color: #308cc6;
+                color: white;
+            }
+            
+            QMenu::separator {
+                height: 1px;
+                background: #c0c0c0;
+                margin: 4px 6px;
+            }
+            
             QToolBar {
                 background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #f6f6f6, stop:1 #d4d4d4);
-                border: 1px solid #a0a0a0;
-                border-radius: 4px;
+                    stop:0 #5a5a5a, stop:1 #3a3a3a);
+                border: 1px solid #1a1a1a;
+                border-radius: 2px;
                 padding: 2px;
                 spacing: 3px;
+                color: white;
             }
-            QToolButton {
+            
+            QToolBar QToolButton {
                 background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #f6f6f6, stop:1 #e0e0e0);
-                border: 1px solid #a0a0a0;
+                    stop:0 #7a7a7a, stop:1 #5a5a5a);
+                border: 1px outset #4a4a4a;
                 border-radius: 3px;
                 padding: 3px;
                 min-width: 24px;
                 min-height: 24px;
+                color: white;
             }
-            QToolButton:hover {
+            
+            QToolBar QToolButton:hover {
                 background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #e8e8e8, stop:1 #d0d0d0);
+                    stop:0 #8a8a8a, stop:1 #6a6a6a);
             }
-            QToolButton:pressed {
+            
+            QToolBar QToolButton:pressed {
                 background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #d0d0d0, stop:1 #b0b0b0);
+                    stop:0 #5a5a5a, stop:1 #3a3a3a);
+                border: 1px inset #4a4a4a;
             }
+            
+            QToolBar QLineEdit {
+                border: 1px inset #4a4a4a;
+                border-radius: 3px;
+                padding: 3px;
+                background: white;
+                color: black;
+            }
+            
             QListView {
                 background-color: white;
                 border: 1px solid #a0a0a0;
-                border-radius: 3px;
                 font: 11px;
             }
+            
             QListView::item {
                 padding: 5px;
                 border: 1px solid transparent;
-                border-radius: 3px;
             }
+            
             QListView::item:hover {
                 background-color: #e0e0e0;
                 border: 1px solid #a0a0a0;
             }
+            
             QListView::item:selected {
-                background-color: #3daee9;
+                background-color: #308cc6;
                 color: white;
             }
+            
             QDockWidget {
                 background: #eaeaea;
                 border: 1px solid #a0a0a0;
-                border-radius: 3px;
                 titlebar-close-icon: url(none);
                 titlebar-normal-icon: url(none);
             }
+            
             QDockWidget::title {
                 background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
                     stop:0 #f6f6f6, stop:1 #d4d4d4);
                 padding: 3px;
                 border: 1px solid #a0a0a0;
-                border-radius: 3px;
+                border-radius: 2px;
             }
+            
             QListWidget {
                 background-color: white;
                 border: 1px solid #a0a0a0;
-                border-radius: 3px;
                 font: 11px;
             }
+            
             QListWidget::item {
                 padding: 5px;
             }
+            
             QListWidget::item:hover {
                 background-color: #e0e0e0;
             }
+            
             QListWidget::item:selected {
-                background-color: #3daee9;
+                background-color: #308cc6;
                 color: white;
             }
+            
             QStatusBar {
                 background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
                     stop:0 #f6f6f6, stop:1 #d4d4d4);
                 border: 1px solid #a0a0a0;
-                border-radius: 3px;
                 font: 11px;
             }
-            QLineEdit {
-                border: 1px solid #a0a0a0;
-                border-radius: 3px;
-                padding: 3px;
-                background: white;
+            
+            QInputDialog QLabel {
+                color: black;
+            }
+            
+            QMessageBox QLabel {
+                color: black;
             }
         """)
 
@@ -293,56 +364,56 @@ class FileManager(QMainWindow):
         menubar = self.menuBar()
 
         file_menu = menubar.addMenu("&File")
-        new_file_action = QAction("New File", self)
+        new_file_action = QAction(QIcon.fromTheme("document-new"), "New File", self)
         new_file_action.triggered.connect(self.create_file)
         file_menu.addAction(new_file_action)
 
-        new_folder_action = QAction("New Folder", self)
+        new_folder_action = QAction(QIcon.fromTheme("folder-new"), "New Folder", self)
         new_folder_action.triggered.connect(self.create_directory)
         file_menu.addAction(new_folder_action)
 
         file_menu.addSeparator()
-        exit_action = QAction("Exit", self)
+        exit_action = QAction(QIcon.fromTheme("application-exit"), "Exit", self)
         exit_action.triggered.connect(self.close)
         file_menu.addAction(exit_action)
 
         edit_menu = menubar.addMenu("&Edit")
-        copy_action = QAction("Copy", self)
+        copy_action = QAction(QIcon.fromTheme("edit-copy"), "Copy", self)
         edit_menu.addAction(copy_action)
 
-        paste_action = QAction("Paste", self)
+        paste_action = QAction(QIcon.fromTheme("edit-paste"), "Paste", self)
         edit_menu.addAction(paste_action)
 
-        delete_action = QAction("Delete", self)
+        delete_action = QAction(QIcon.fromTheme("edit-delete"), "Delete", self)
         delete_action.triggered.connect(self.delete_item)
         edit_menu.addAction(delete_action)
 
         view_menu = menubar.addMenu("&View")
-        self.toggle_hidden_action = QAction("Show Hidden", self)
+        self.toggle_hidden_action = QAction(QIcon.fromTheme("view-hidden"), "Show Hidden", self)
         self.toggle_hidden_action.setCheckable(True)
         self.toggle_hidden_action.toggled.connect(self.toggle_hidden_files)
         view_menu.addAction(self.toggle_hidden_action)
 
         go_menu = menubar.addMenu("&Go")
-        back_action = QAction("Back", self)
+        back_action = QAction(QIcon.fromTheme("go-previous"), "Back", self)
         back_action.triggered.connect(self.go_back)
         go_menu.addAction(back_action)
 
-        forward_action = QAction("Forward", self)
+        forward_action = QAction(QIcon.fromTheme("go-next"), "Forward", self)
         forward_action.triggered.connect(self.go_forward)
         go_menu.addAction(forward_action)
 
-        home_action = QAction("Home", self)
+        home_action = QAction(QIcon.fromTheme("go-home"), "Home", self)
         home_action.triggered.connect(self.go_home)
         go_menu.addAction(home_action)
 
         bookmarks_menu = menubar.addMenu("&Bookmarks")
-        add_bookmark_action = QAction("Add Bookmark", self)
+        add_bookmark_action = QAction(QIcon.fromTheme("bookmark-new"), "Add Bookmark", self)
         add_bookmark_action.triggered.connect(self.pin_current_folder)
         bookmarks_menu.addAction(add_bookmark_action)
 
         help_menu = menubar.addMenu("&Help")
-        about_action = QAction("About", self)
+        about_action = QAction(QIcon.fromTheme("help-about"), "About", self)
         about_action.triggered.connect(self.show_about_dialog)
         help_menu.addAction(about_action)
 
@@ -529,8 +600,8 @@ class FileManager(QMainWindow):
     def show_about_dialog(self):
         about_text = """
         <h2>Aldernys File Manager</h2>
-        <p>Version alpha 1.2</p>
-        <p>A file manager inspired by classic KDE 3.0 applications</p>
+        <p>Version Alpha 1.2</p>
+        <p>A file manager inspired by classic KDE applications</p>
         <p>Part of the AMNY Project</p>
         <p>License: GNU GPL 3.0</p>
         """
