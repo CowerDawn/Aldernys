@@ -1,4 +1,4 @@
-Aldernys File Manager 
+# Aldernys File Manager 
 
 ![Снимок экрана от 2025-03-30 00-58-54](https://github.com/user-attachments/assets/ce33e8c0-bd92-4ceb-92ad-28348aa59ed0)
 
@@ -7,7 +7,10 @@ The open source and multi platform program for Linux, BSD and macOS. AMNY Projec
 Many programs from the AMNY package will be located on this GitHub: https://github.com/CowerDawn 
 Read the GNU License:: https://gnu.org
 
-Install:
+# History:
+Initially there was STFM - a file manager in Python, which was for the terminal. For STFM, SGFM was created - a version with a poor interface and large bugs, to fix all the errors and improve the interface, a fork was created called FK-Files.It was much better than SGFM in everything, but it still had bugs and an ugly interface. Having understood all the mistakes, Aldernys was created, which is already much better than its predecessors. The Aldernys project is still developing, before the first beta version is released, Altuis will be created - a file manager in C inside the terminal. It is already in development.
+
+# Install:
 
 `make build`
 `sudo make install`
