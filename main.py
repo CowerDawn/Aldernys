@@ -601,7 +601,7 @@ class FileManager(QMainWindow):
         about_text = """
         <h2>Aldernys File Manager</h2>
         <p>Version Alpha 1.2</p>
-        <p>A file manager inspired by classic KDE applications</p>
+        <p>A file manager inspired by classic OldShcool KDE style.</p>
         <p>Part of the AMNY Project</p>
         <p>License: GNU GPL 3.0</p>
         """
