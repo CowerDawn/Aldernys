@@ -285,8 +285,15 @@ class FileManager(QMainWindow):
 
     def load_pinned_folders(self):
         if os.path.exists(self.config_file):
-            with open(self.config_file, "r") as f:
-                return json.load(f)
+            try:
+                with open(self.config_file, "r") as f:
+                    return json.load(f)
+            except json.JSONDecodeError:
+                return [
+                    QDir.homePath(),
+                    os.path.join(QDir.homePath(), "Documents"),
+                    os.path.join(QDir.homePath(), "Downloads"),
+                ]
         return [
             QDir.homePath(),
             os.path.join(QDir.homePath(), "Documents"),
@@ -295,7 +302,7 @@ class FileManager(QMainWindow):
 
     def save_pinned_folders(self):
         with open(self.config_file, "w") as f:
-            json.dump(self.pinned_folders, f)
+            json.dump(self.pinned_folders, f, indent=4)
 
     def update_sidebar(self):
         self.sidebar_widget.clear()
@@ -328,6 +335,7 @@ class FileManager(QMainWindow):
         if os.path.isdir(path):
             self.list_view.setRootIndex(index)
             self.add_to_history(path)
+            self.update_path(index)
         else:
             self.open_file(path)
 
@@ -344,14 +352,18 @@ class FileManager(QMainWindow):
 
     def on_sidebar_item_clicked(self, item):
         path = item.data(Qt.UserRole)
-        self.list_view.setRootIndex(self.model.index(path))
+        index = self.model.index(path)
+        self.list_view.setRootIndex(index)
         self.add_to_history(path)
+        self.update_path(index)
 
     def navigate_to_path(self):
         path = self.path_edit.text()
         if os.path.exists(path):
-            self.list_view.setRootIndex(self.model.index(path))
+            index = self.model.index(path)
+            self.list_view.setRootIndex(index)
             self.add_to_history(path)
+            self.update_path(index)
         else:
             QMessageBox.warning(self, "Error", "The specified path does not exist.")
 
@@ -450,7 +462,8 @@ class FileManager(QMainWindow):
             if reply == QMessageBox.Yes:
                 try:
                     if os.path.isdir(path):
-                        os.rmdir(path)
+                        import shutil
+                        shutil.rmtree(path)
                     else:
                         os.remove(path)
                     self.refresh()
@@ -468,28 +481,36 @@ class FileManager(QMainWindow):
             self.navigate_to_history()
 
     def go_home(self):
-        self.list_view.setRootIndex(self.model.index(QDir.homePath()))
+        index = self.model.index(QDir.homePath())
+        self.list_view.setRootIndex(index)
         self.add_to_history(QDir.homePath())
+        self.update_path(index)
 
     def refresh(self):
-        self.list_view.setRootIndex(self.model.index(self.current_path))
+        index = self.model.index(self.current_path)
+        self.list_view.setRootIndex(index)
+        self.update_path(index)
 
     def add_to_history(self, path):
         if self.history_index < len(self.history) - 1:
             self.history = self.history[:self.history_index + 1]
         self.history.append(path)
-        self.history_index += 1
+        self.history_index = len(self.history) - 1
 
     def navigate_to_history(self):
-        path = self.history[self.history_index]
-        self.list_view.setRootIndex(self.model.index(path))
-        self.path_edit.setText(path)
+        if 0 <= self.history_index < len(self.history):
+            path = self.history[self.history_index]
+            index = self.model.index(path)
+            self.list_view.setRootIndex(index)
+            self.path_edit.setText(path)
+            self.current_path = path
 
     def toggle_hidden_files(self, checked):
         if checked:
             self.model.setFilter(QDir.AllEntries | QDir.NoDotAndDotDot | QDir.Hidden)
         else:
             self.model.setFilter(QDir.AllEntries | QDir.NoDotAndDotDot)
+        self.refresh()
 
     def show_context_menu(self, position):
         index = self.list_view.indexAt(position)
@@ -576,6 +597,7 @@ class FileManager(QMainWindow):
             new_path = os.path.join(os.path.dirname(old_path), new_name)
             try:
                 os.rename(old_path, new_path)
+                self.refresh()
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Failed to rename: {e}")
 
@@ -591,17 +613,23 @@ class FileManager(QMainWindow):
         if event.mimeData().hasUrls():
             for url in event.mimeData().urls():
                 file_path = url.toLocalFile()
-                destination = self.current_path
+                destination = os.path.join(self.current_path, os.path.basename(file_path))
                 try:
-                    os.rename(file_path, os.path.join(destination, os.path.basename(file_path)))
+                    if os.path.exists(file_path):
+                        if os.path.isdir(file_path):
+                            import shutil
+                            shutil.move(file_path, destination)
+                        else:
+                            os.rename(file_path, destination)
+                    self.refresh()
                 except Exception as e:
                     QMessageBox.critical(self, "Error", f"Failed to move file: {e}")
 
     def show_about_dialog(self):
         about_text = """
         <h2>Aldernys File Manager</h2>
-        <p>Version Alpha 1.2</p>
-        <p>A file manager inspired by classic OldShcool KDE style.</p>
+        <p>Version Alpha 2.0</p>
+        <p>A file manager inspired by classic OldSchool KDE style.</p>
         <p>Part of the AMNY Project</p>
         <p>License: GNU GPL 3.0</p>
         """
